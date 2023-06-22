@@ -33,9 +33,21 @@ plot_1 <- ggplot(data_1, aes(x = factor(age_group), fill = survived)) +
 
 # Plot anzeigen
 print(plot_1)
+
 # 2.) 
 # Dataframe zusammenführen
-data_2 <- data.frame(fare,survived,age)
+data_2 <- data.frame(fare, survived, age)
+
+plot(data_2$age, data_2$fare, col = adjustcolor(ifelse(data_2$survived == 1, "green", "red"), alpha.f = 1),
+     xlab = "Alter", ylab = "Ticketkosten", main = "Alter vs. Ticketkosten (Überlebensstatus)")
+
+# Altersabstand in 10er Schritten auf der x-Achse
+axis(1, at = seq(0, max(data_2$age, na.rm = TRUE), by = 10))
+
+legend("topright", legend = c("Überlebt", "Nicht überlebt"),
+       col = c("green", "red"), pch = 1)
+
+
 
 
 

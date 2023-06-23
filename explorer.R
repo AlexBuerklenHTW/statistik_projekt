@@ -15,36 +15,30 @@
 # überlebenschance?
 
 # 1.)
-# Dataframe zusammenführen
 data_1 <- data.frame(survived, age)
 
-# Überlebensstatus als Faktor konvertieren
 data_1$survived <- factor(data_1$survived, labels = c("Nein", "Ja"))
 
-# Alter in diskrete Gruppen einteilen
 data_1$age_group <- cut(data_1$age, breaks = seq(0, max(data_1$age, na.rm = TRUE), by = 10), include.lowest = TRUE, labels = FALSE)
 
-# Plot erstellen
 plot_1 <- ggplot(data_1, aes(x = factor(age_group), fill = survived)) +
   geom_bar(position = "dodge", width = 0.7) +
   scale_x_discrete(labels = paste0(seq(0, max(data_1$age, na.rm = TRUE), by = 10), "-", seq(9, max(data_1$age, na.rm = TRUE), by = 10))) +
   labs(x = "Alter", y = "Anzahl", fill = "Überleben") +
   ggtitle("Häufigkeit des Überlebensstatus nach Alter")
 
-# Plot anzeigen
 print(plot_1)
 
 # 2.) 
-# Dataframe zusammenführen
 data_2 <- data.frame(fare, survived, age)
-plot(data_2$age, data_2$fare, pch = 19, col = adjustcolor(ifelse(data_2$survived == 1, "green", "red"), alpha.f = 1),
-xlab = "Alter", ylab = "Ticketkosten", main = "Alter vs. Ticketkosten (Überlebensstatus)")
- 
-# Altersabstand in 10er Schritten auf der x-Achse
-axis(1, at = seq(0, max(data_2$age, na.rm = TRUE), by = 10))
- 
-legend("topright", legend = c("Überlebt", "Nicht überlebt"),
-col = c("green", "red"), pch = 19)
+
+ggplot(data_2, aes(x = age, y = fare, color = factor(survived))) +
+  geom_point(shape = 19) +
+  scale_color_manual(values = c("red", "green"), labels = c("Nicht überlebt", "Überlebt")) +
+  labs(x = "Alter", y = "Ticketkosten", title = "Alter vs. Ticketkosten (Überlebensstatus)") +
+  theme_dark()
+
+# 3.) 
 
 
 

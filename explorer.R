@@ -26,19 +26,22 @@ plot_1 <- ggplot(data_1, aes(x = factor(age_group), fill = survived)) +
   scale_x_discrete(labels = paste0(seq(0, max(data_1$age, na.rm = TRUE), by = 10), "-", seq(9, max(data_1$age, na.rm = TRUE), by = 10))) +
   labs(x = "Alter", y = "Anzahl", fill = "Überleben") +
   ggtitle("Häufigkeit des Überlebensstatus nach Alter")
-
 print(plot_1)
 
 # 2.) 
 data_2 <- data.frame(fare, survived, age)
+data_2_clean <- na.omit(data_2)
 
-ggplot(data_2, aes(x = age, y = fare, color = factor(survived))) +
+plot_2 <- ggplot(data_2_clean, aes(x = age, y = fare, color = factor(survived))) +
   geom_point(shape = 19) +
+  scale_x_continuous(breaks = seq(0, max(data_2_clean$age), by = 10)) +
   scale_color_manual(values = c("red", "green"), labels = c("Nicht überlebt", "Überlebt")) +
   labs(x = "Alter", y = "Ticketkosten", title = "Alter vs. Ticketkosten (Überlebensstatus)") +
   theme_dark()
+print(plot_2)
 
 # 3.) 
+
 
 
 

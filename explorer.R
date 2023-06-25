@@ -51,8 +51,19 @@ print(plot_2)
 'Dem Diagramm ist zu entnehmen, dass durch ein teureres Ticket, die Überlebenschancen um ein kleines bisschen höher sein könnte, wobei es auch Ausnahmefälle gibt'
 
 # 3.) 
+library(ggplot2)
 data_3 <- data.frame(parch,survived,age)
+data_3_clean <- na.omit(data_3)
 data_3
+
+plot_3 <- ggplot(data_3_clean,aes(x=age, y = parch, color = factor(survived) )) +
+  geom_point(shape = 19) +
+  scale_x_continuous(breaks = seq(0, max(data_3_clean$age), by = 10)) +
+  scale_color_manual(values = c("red", "green"), labels = c("Nicht überlebt", "Überlebt")) +
+  labs(x = "Alter", y = "Eltern", title = "Eltern und Kinder vs. Überlebenschance (Überlebensstatus)") +
+  theme_dark()
+print(plot_3)
+  
 
 
 
@@ -84,5 +95,17 @@ ggplot(data_5, aes(x = survived, fill = sex)) +
 
 'Dem Diagramm ist zu entnehmen, dass der Großteil der Männer (im Diagramm über 400 Männer) nicht überlebt haben, wobei die Mehrheit der Frauen überlebt haben.'
 
+# 6.)
+data_6 <- data.frame(sibsp,survived,age)
+data_6_clean <- na.omit(data_6)
+data_6
+
+plot_6 <- ggplot(data_6_clean,aes(x=age, y = sibsp, color = factor(survived) )) +
+  geom_point(shape = 19) +
+  scale_x_continuous(breaks = seq(0, max(data_6_clean$age), by = 10)) +
+  scale_color_manual(values = c("red", "green"), labels = c("Nicht überlebt", "Überlebt")) +
+  labs(x = "Alter", y = "geschwister/ehepaare", title = "Egeschwister/ehepaare vs. Überlebenschance (Überlebensstatus)") +
+  theme_dark()
+print(plot_6)
 
 

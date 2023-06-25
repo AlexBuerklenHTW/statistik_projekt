@@ -9,7 +9,7 @@
 # überlebenschance?
 # 4.) pclass + survived + age -> hatte die passagierklasse einfluss auf die 
 # überlebenschance? 
-# 5.) sex + survived + age -> hatte das geschlecht einfluss auf die 
+# 5.) sex + survived -> hatte das geschlecht einfluss auf die 
 # überlebenschance?
 # 6.) sibsp + survived + age -> hatten geschwister/ehepaare eine höhere 
 # überlebenschance?
@@ -56,9 +56,33 @@ data_3
 
 
 
+# 4.)
+data_4 <- data.frame(pclass,survived,age)
+data_4_clean <- na.omit(data_4)
+data_4
 
 
+plot_4 <- ggplot(data_4_clean, aes(x = age, y = pclass, color = factor(survived))) +
+  geom_point(shape = 19) +
+  scale_x_continuous(breaks = seq(0, max(data_4_clean$age), by = 10)) +
+  scale_color_manual(values = c("red", "green"), labels = c("Nicht überlebt", "Überlebt")) +
+  labs(x = "Alter", y = "Passenger Class", title = "Alter vs. Ticketkosten (Überlebensstatus)") +
+  theme_dark()
+print(plot_4)
 
+'Man erkennt, dass in der Passenger Class 3 viel mehr Menschen gestorben sind, als bei 2 und 1. In der Passenger Class 1 haben die meisten Menschen überlebt.'
+
+
+# 5.)
+data_5 <- data.frame(sex,survived)
+
+ggplot(data_5, aes(x = survived, fill = sex)) +
+  geom_bar() +
+  labs(x = "Überlebt", y = "Anzahl der Personen") +
+  scale_fill_manual(values = c("male" = "red", "female" = "green")) +
+  theme_minimal()
+
+'Dem Diagramm ist zu entnehmen, dass der Großteil der Männer (im Diagramm über 400 Männer) nicht überlebt haben, wobei die Mehrheit der Frauen überlebt haben.'
 
 
 

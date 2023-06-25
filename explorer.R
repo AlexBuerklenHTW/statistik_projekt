@@ -34,6 +34,8 @@ plot_1 <- ggplot(data_1, aes(x = factor(age_group), fill = survived)) +
   ggtitle("Häufigkeit des Überlebensstatus nach Alter")
 print(plot_1)
 
+"Kinder 50%, Erwachsene 38%, Ältere Erwachsene 26%"
+
 # 2.) 
 library(ggplot2)
 
@@ -50,6 +52,8 @@ print(plot_2)
 
 'Dem Diagramm ist zu entnehmen, dass durch ein teureres Ticket, die Überlebenschancen um ein kleines bisschen höher sein könnte, wobei es auch Ausnahmefälle gibt'
 
+"erste Klasse 63%, zweite Klasse 47% und dritte Klasse 24%"
+
 # 3.) 
 library(ggplot2)
 data_3 <- data.frame(parch,survived,age)
@@ -63,6 +67,10 @@ plot_3 <- ggplot(data_3_clean,aes(x=age, y = parch, color = factor(survived) )) 
   labs(x = "Alter", y = "Eltern", title = "Eltern und Kinder vs. Überlebenschance (Überlebensstatus)") +
   theme_dark()
 print(plot_3)
+
+"Eltern und Kinder hatten eine höhere Überlebenschance auf der Titanic. Die Datenanalyse zeigt, 
+dass Passagiere, die als Eltern oder Kinder zusammen mit ihrer Familie an Bord waren , 
+eine höhere Überlebensrate hatten im Vergleich zu Passagieren, die allein reisten.."
   
 
 
@@ -94,6 +102,8 @@ ggplot(data_5, aes(x = survived, fill = sex)) +
   theme_minimal()
 
 'Dem Diagramm ist zu entnehmen, dass der Großteil der Männer (im Diagramm über 400 Männer) nicht überlebt haben, wobei die Mehrheit der Frauen überlebt haben.'
+"74% von den Frauen hat überlebt und nur 18 Prozent der Männer "
+
 
 # 6.)
 data_6 <- data.frame(sibsp,survived,age)
@@ -104,8 +114,8 @@ plot_6 <- ggplot(data_6_clean,aes(x=age, y = sibsp, color = factor(survived) )) 
   geom_point(shape = 19) +
   scale_x_continuous(breaks = seq(0, max(data_6_clean$age), by = 10)) +
   scale_color_manual(values = c("red", "green"), labels = c("Nicht überlebt", "Überlebt")) +
-  labs(x = "Alter", y = "geschwister/ehepaare", title = "Egeschwister/ehepaare vs. Überlebenschance (Überlebensstatus)") +
+  labs(x = "Alter", y = "geschwister/ehepaare", title = "geschwister/ehepaare vs. Überlebenschance (Überlebensstatus)") +
   theme_dark()
 print(plot_6)
-
+"Auch bei diesem Diagram wird es deutig, das geschwister/ehepaare eine höhere Chance hatten zu überleben."
 

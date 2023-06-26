@@ -71,7 +71,15 @@ print(plot_3)
 "Eltern und Kinder hatten eine höhere Überlebenschance auf der Titanic. Die Datenanalyse zeigt, 
 dass Passagiere, die als Eltern oder Kinder zusammen mit ihrer Familie an Bord waren , 
 eine höhere Überlebensrate hatten im Vergleich zu Passagieren, die allein reisten.."
-  
+
+
+#Vorschlag für dritten Plot
+# Überlebensraten berechnen
+#survival_rates <- aggregate(survived ~ parch, data = data_3_clean, FUN = mean)
+# grouped bar plot erstellen
+#ggplot(survival_rates, aes(x = factor(parch), y = survived)) +
+#  geom_bar(stat = "identity", fill = "steelblue") +
+#  labs(x = "Anzahl der Eltern/Kinder an Bord", y = "Überlebensrate", title = "Korrelation zwischen Eltern/Kinder und Überlebensstatus")
 
 
 
@@ -95,7 +103,7 @@ print(plot_4)
 # 5.)
 data_5 <- data.frame(sex,survived)
 
-ggplot(data_5, aes(x = survived, fill = sex)) +
+plot_5 <- ggplot(data_5, aes(x = survived, fill = sex)) +
   geom_bar() +
   labs(x = "Überlebt", y = "Anzahl der Personen") +
   scale_fill_manual(values = c("male" = "red", "female" = "green")) +

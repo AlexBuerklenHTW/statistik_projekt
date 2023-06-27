@@ -5,7 +5,7 @@
 # überlebenschance?
 # 2.) fare + survived + age -> vllt hat ein teureres ticket zu einer höheren 
 # überlebenschance geführt? (bevorzugung von passagieren?)
-# 3.) parch + survived + age -> hatten eltern und kinder eine höhere 
+# 3.) parch + survived -> hatten eltern und kinder eine höhere 
 # überlebenschance?
 # 4.) pclass + survived + age -> hatte die passagierklasse einfluss auf die 
 # überlebenschance? 
@@ -30,8 +30,8 @@ data_1$age_group
 plot_1 <- ggplot(data_1, aes(x = factor(age_group), fill = survived)) +
   geom_bar(position = "dodge", width = 0.7) +
   scale_x_discrete(labels = paste0(seq(0, max(data_1$age, na.rm = TRUE), by = 10), "-", seq(9, max(data_1$age, na.rm = TRUE), by = 10))) +
-  labs(x = "Alter", y = "Anzahl", fill = "Überleben") +
-  ggtitle("Häufigkeit des Überlebensstatus nach Alter")
+  labs(x = "Alter", y = "Anzahl", fill = "Überlebensstatus") +
+  ggtitle("Aufteilung der Personen (je nach Altersgruppe), die überlebt haben oder nicht")
 print(plot_1)
 
 "Kinder 50%, Erwachsene 38%, Ältere Erwachsene 26%"
@@ -55,49 +55,23 @@ print(plot_2)
 "erste Klasse 63%, zweite Klasse 47% und dritte Klasse 24%"
 
 # 3.) 
-library(ggplot2)
-data_3 <- data.frame(parch,survived,age)
-data_3_clean <- na.omit(data_3)
-data_3
-
-plot_3 <- ggplot(data_3_clean,aes(x=age, y = parch, color = factor(survived) )) +
-  geom_point(shape = 19) +
-  scale_x_continuous(breaks = seq(0, max(data_3_clean$age), by = 10)) +
-  scale_color_manual(values = c("red", "green"), labels = c("Nicht überlebt", "Überlebt")) +
-  labs(x = "Alter", y = "Eltern", title = "Eltern und Kinder vs. Überlebenschance (Überlebensstatus)") +
-  theme_dark()
-print(plot_3)
-
 "Eltern und Kinder hatten eine höhere Überlebenschance auf der Titanic. Die Datenanalyse zeigt, 
 dass Passagiere, die als Eltern oder Kinder zusammen mit ihrer Familie an Bord waren , 
 eine höhere Überlebensrate hatten im Vergleich zu Passagieren, die allein reisten.."
 
-
-#Vorschlag für dritten Plot
-# Überlebensraten berechnen
-#survival_rates <- aggregate(survived ~ parch, data = data_3_clean, FUN = mean)
-# grouped bar plot erstellen
-#ggplot(survival_rates, aes(x = factor(parch), y = survived)) +
-#  geom_bar(stat = "identity", fill = "steelblue") +
-#  labs(x = "Anzahl der Eltern/Kinder an Bord", y = "Überlebensrate", title = "Korrelation zwischen Eltern/Kinder und Überlebensstatus")
-
+survival_rates <- aggregate(survived ~ parch, data = data_3_clean, FUN = mean)
+ 
+data_3_clean <- ggplot(survival_rates, aes(x = factor(parch), y = survived)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(x = "Anzahl der Eltern/Kinder an Bord", y = "Überlebensrate", title = "Korrelation zwischen Eltern/Kinder und Überlebensstatus")
 
 
 # 4.)
-data_4 <- data.frame(pclass,survived,age)
+data_4 <- data.frame(pclass,survived)
 data_4_clean <- na.omit(data_4)
-data_4
-
-
-plot_4 <- ggplot(data_4_clean, aes(x = age, y = pclass, color = factor(survived))) +
-  geom_point(shape = 19) +
-  scale_x_continuous(breaks = seq(0, max(data_4_clean$age), by = 10)) +
-  scale_color_manual(values = c("red", "green"), labels = c("Nicht überlebt", "Überlebt")) +
-  labs(x = "Alter", y = "Passenger Class", title = "Alter vs. Ticketkosten (Überlebensstatus)") +
-  theme_dark()
-print(plot_4)
-
-'Man erkennt, dass in der Passenger Class 3 viel mehr Menschen gestorben sind, als bei 2 und 1. In der Passenger Class 1 haben die meisten Menschen überlebt.'
+data_4_table <- table(data_4_clean)
+mosaicplot(data_4_table,xlab = "Passagierklasse", ylab ="Überlebt oder nicht",main="Mosaicplot")
+#Aus irgendeinem Grund muss man den ganzen Befehl eingebenen (die Zeile über diesem Kommentar)
 
 
 # 5.)
@@ -126,4 +100,9 @@ plot_6 <- ggplot(data_6_clean,aes(x=age, y = sibsp, color = factor(survived) )) 
   theme_dark()
 print(plot_6)
 "Auch bei diesem Diagram wird es deutig, das geschwister/ehepaare eine höhere Chance hatten zu überleben."
+#vielleicht kann man auch daraus ein mosaik plot machen?
+#data_6 <- data.frame(sibsp,survived)
+#data_6_clean <- na.omit(data_6)
+#data_6_table <- table(data_6_clean)
+#mosaicplot(data_6_table,xlab = "Geschwister/Ehepartner", ylab ="Überlebt oder nicht",main="Mosaicplot")
 

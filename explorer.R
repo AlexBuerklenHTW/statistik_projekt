@@ -7,11 +7,11 @@
 # überlebenschance geführt? (bevorzugung von passagieren?)
 # 3.) parch + survived -> hatten eltern und kinder eine höhere 
 # überlebenschance?
-# 4.) pclass + survived + age -> hatte die passagierklasse einfluss auf die 
+# 4.) pclass + survived -> hatte die passagierklasse einfluss auf die 
 # überlebenschance? 
 # 5.) sex + survived -> hatte das geschlecht einfluss auf die 
 # überlebenschance?
-# 6.) sibsp + survived + age -> hatten geschwister/ehepaare eine höhere 
+# 6.) sibsp + survived -> hatten geschwister/ehepaare eine höhere 
 # überlebenschance?
 
 # 1.)

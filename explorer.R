@@ -14,6 +14,8 @@
 # 6.) sibsp + survived -> hatten geschwister/ehepaare eine höhere 
 # überlebenschance?
 
+data_survived_alive <- titanic_data$survived == 1;
+
 # 1.)
 data_1 <- data.frame(survived, age)
 data_1
@@ -40,21 +42,45 @@ plot_1 <- ggplot(data_1_clean, aes(x = age, fill = factor(survived))) +
 
 # 2.) 
 library(ggplot2)
-
+#main diagramm
 data_2 <- data.frame(fare, survived, age)
 data_2_clean <- na.omit(data_2)
 
-plot_2 <- ggplot(data_2_clean, aes(x = age, y = fare, color = factor(survived))) +
+plot_2 <- ggplot(data_2_clean, aes(x = factor(pclass), y = fare, color = factor(survived))) +
   geom_point(shape = 19) +
-  scale_x_continuous(breaks = seq(0, max(data_2_clean$age), by = 10)) +
-  scale_color_manual(values = c("red", "green"), labels = c("Nicht überlebt", "Überlebt")) +
-  labs(x = "Alter", y = "Ticketkosten", title = "Alter vs. Ticketkosten (Überlebensstatus)") +
-  theme_dark()
-print(plot_2)
+  scale_x_discrete(labels = c("1", "2", "3")) +
+  scale_y_continuous(breaks = seq(0, max(data_2_clean$fare), by = 50)) +
+  scale_color_manual(values = c("red", "green"), labels = c("Nicht-Überlebt", "Überlebt")) +
+  labs(x = "Passagierklasse", y = "Ticketkosten", title = "Einfluss der Passagierklasse und Ticketkosten auf die Überlebenschance") +
+  theme_minimal()
 
-'Dem Diagramm ist zu entnehmen, dass durch ein teureres Ticket, die Überlebenschancen um ein kleines bisschen höher sein könnte, wobei es auch Ausnahmefälle gibt'
+#passagierklasse 1
+data_2_clean_drill_down_1 <- subset(data_2_clean, pclass == 1)
 
-"erste Klasse 63%, zweite Klasse 47% und dritte Klasse 24%"
+ggplot(data_2_clean_drill_down_1, aes(x = factor(survived))) +
+  geom_histogram(stat = "count", fill = c("red", "green")) +
+  scale_x_discrete(labels = c("Nicht überlebt", "Überlebt")) +
+  labs(x = "Überlebensstatus", y = "Anzahl der Passagiere", title = "Anzahl der Passagiere vs. Überlebensstatus (Passagierklasse 1)") +
+  theme_minimal()
+
+#passagierklasse 2
+data_2_clean_drill_down_2 <- subset(data_2_clean, pclass == 2)
+
+ggplot(data_2_clean_drill_down_2, aes(x = factor(survived))) +
+  geom_histogram(stat = "count", fill = c("red", "green")) +
+  scale_x_discrete(labels = c("Nicht überlebt", "Überlebt")) +
+  labs(x = "Überlebensstatus", y = "Anzahl der Passagiere", title = "Anzahl der Passagiere vs. Überlebensstatus (Passagierklasse 1)") +
+  theme_minimal()
+
+#passagierklasse 3
+data_2_clean_drill_down_3 <- subset(data_2_clean, pclass == 3)
+
+ggplot(data_2_clean_drill_down_3, aes(x = factor(survived))) +
+  geom_histogram(stat = "count", fill = c("red", "green")) +
+  scale_x_discrete(labels = c("Nicht überlebt", "Überlebt")) +
+  labs(x = "Überlebensstatus", y = "Anzahl der Passagiere", title = "Anzahl der Passagiere vs. Überlebensstatus (Passagierklasse 1)") +
+  theme_minimal()
+
 
 # 3.) 
 "Eltern und Kinder hatten eine höhere Überlebenschance auf der Titanic. Die Datenanalyse zeigt, 

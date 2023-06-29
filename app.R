@@ -10,8 +10,14 @@
 library(shiny)
 
 ui <- fluidPage(
-  sliderInput("bin_input", "Bin-Breite:", min = 1, max = 10, value = 1),
-  plotOutput("histogram")
+    sidebarLayout(
+      sidebarPanel(
+        sliderInput("bin_input", "Bin-Breite:", min = 1, max = 10, value = 1)
+    ),
+    mainPanel(
+      plotOutput("histogram")
+  )
+)
 )
 
 server <- function(input, output) {

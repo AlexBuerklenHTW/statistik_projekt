@@ -18,6 +18,8 @@
 data_1 <- data.frame(survived, age)
 data_1
 
+
+
 data_1$survived <- factor(data_1$survived, labels = c("Nein", "Ja"))
 data_1$survived
 
@@ -26,13 +28,13 @@ data_1$age_group <- cut(data_1$age, breaks = seq(0, max(data_1$age, na.rm = TRUE
 data_1$age_group
 
 
-'options(max.print = 1000)'  
-plot_1 <- ggplot(data_1, aes(x = factor(age_group), fill = survived)) +
-  geom_bar(position = "dodge", width = 0.7) +
-  scale_x_discrete(labels = paste0(seq(0, max(data_1$age, na.rm = TRUE), by = 10), "-", seq(9, max(data_1$age, na.rm = TRUE), by = 10))) +
+plot_1 <- ggplot(data_1_clean, aes(x = age, fill = factor(survived))) +
+  geom_histogram(binwidth = 1, color = "black") +
+  scale_x_continuous(breaks = seq(0, max(data_1$age, na.rm = TRUE), by = 1),
+                     labels = seq(0, max(data_1$age, na.rm = TRUE), by = 1)) +
   labs(x = "Alter", y = "Anzahl", fill = "Überlebensstatus") +
-  ggtitle("Aufteilung der Personen (je nach Altersgruppe), die überlebt haben oder nicht")
-print(plot_1)
+  ggtitle("Aufteilung der Personen (je nach Altersgruppe), die überlebt haben oder nicht") +
+  scale_fill_manual(values = c("red", "green"), labels = c("Nicht-Überlebt", "Überlebt"), name = "Überlebensstatus")
 
 "Kinder 50%, Erwachsene 38%, Ältere Erwachsene 26%"
 

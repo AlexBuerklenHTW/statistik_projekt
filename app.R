@@ -10,25 +10,25 @@
 library(shiny)
 
 ui <- fluidPage(
-  titlePanel("Old Faithful Geyser Data"),
-  sidebarLayout(
-    sidebarPanel(
-      sliderInput("bins", "Number of bins:", min = 1, max = 50, value = 30)
-    ),
-    mainPanel(
-      plotOutput("distPlot1")
-    )
-  )
+  sliderInput("bin_input", "Bin-Breite:", min = 1, max = 10, value = 1),
+  plotOutput("histogram")
 )
 
 server <- function(input, output) {
-  output$distPlot1 <- renderPlot({
-    x <- faithful[, 2]
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-    hist(x, breaks = bins, col = 'darkgray', border = 'white',
-         xlab = 'Waiting time to next eruption (in mins)',
-         main = 'Histogram of waiting times')
+  output$histogram <- renderPlot({
+    ggplot(data_1, aes(x = age, fill = factor(survived))) +
+      geom_histogram(binwidth = input$bin_input, color = "black") +
+      scale_x_continuous(breaks = seq(0, max(data_1$age, na.rm = TRUE), by = 1),
+                         labels = seq(0, max(data_1$age, na.rm = TRUE), by = 1)) +
+      labs(x = "Alter", y = "Anzahl", fill = "Überlebensstatus") +
+      ggtitle("Aufteilung der Anzahl der Personen, die überlebt haben oder nicht") +
+      scale_fill_manual(values = c("red", "green"), labels = c("Nicht-Überlebt", "Überlebt"), name = "Überlebensstatus")
   })
 }
 
-shinyApp(ui = ui, server = server)
+shinyApp(ui, server)
+
+
+
+
+

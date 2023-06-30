@@ -3,7 +3,7 @@
 # ideen: 
 # 1.) alter + survived -> hat das alter einen einfluss auf die
 # überlebenschance?
-# 2.) fare + survived + age -> vllt hat ein teureres ticket zu einer höheren 
+# 2.) fare + survived -> vllt hat ein teureres ticket zu einer höheren 
 # überlebenschance geführt? (bevorzugung von passagieren?)
 # 3.) parch + survived -> hatten eltern und kinder eine höhere 
 # überlebenschance?
@@ -38,49 +38,9 @@ plot_1 <- ggplot(data_1, aes(x = age, fill = factor(survived))) +
   scale_fill_manual(values = c("red", "green"), labels = c("Nicht-Überlebt", "Überlebt"), name = "Überlebensstatus")
 
 
-"Kinder 50%, Erwachsene 38%, Ältere Erwachsene 26%"
-
 # 2.) 
-library(ggplot2)
-#main diagramm
-data_2 <- data.frame(fare, survived, age)
-data_2_clean <- na.omit(data_2)
 
-plot_2 <- ggplot(data_2_clean, aes(x = factor(pclass), y = fare, color = factor(survived))) +
-  geom_point(shape = 19) +
-  scale_x_discrete(labels = c("1", "2", "3")) +
-  scale_y_continuous(breaks = seq(0, max(data_2_clean$fare), by = 50)) +
-  scale_color_manual(values = c("red", "green"), labels = c("Nicht-Überlebt", "Überlebt")) +
-  labs(x = "Passagierklasse", y = "Ticketkosten", title = "Einfluss der Passagierklasse und Ticketkosten auf die Überlebenschance") +
-  theme_minimal()
-
-#passagierklasse 1
-data_2_clean_drill_down_1 <- subset(data_2_clean, pclass == 1)
-
-ggplot(data_2_clean_drill_down_1, aes(x = factor(survived))) +
-  geom_histogram(stat = "count", fill = c("red", "green")) +
-  scale_x_discrete(labels = c("Nicht überlebt", "Überlebt")) +
-  labs(x = "Überlebensstatus", y = "Anzahl der Passagiere", title = "Anzahl der Passagiere vs. Überlebensstatus (Passagierklasse 1)") +
-  theme_minimal()
-
-#passagierklasse 2
-data_2_clean_drill_down_2 <- subset(data_2_clean, pclass == 2)
-
-ggplot(data_2_clean_drill_down_2, aes(x = factor(survived))) +
-  geom_histogram(stat = "count", fill = c("red", "green")) +
-  scale_x_discrete(labels = c("Nicht überlebt", "Überlebt")) +
-  labs(x = "Überlebensstatus", y = "Anzahl der Passagiere", title = "Anzahl der Passagiere vs. Überlebensstatus (Passagierklasse 1)") +
-  theme_minimal()
-
-#passagierklasse 3
-data_2_clean_drill_down_3 <- subset(data_2_clean, pclass == 3)
-
-ggplot(data_2_clean_drill_down_3, aes(x = factor(survived))) +
-  geom_histogram(stat = "count", fill = c("red", "green")) +
-  scale_x_discrete(labels = c("Nicht überlebt", "Überlebt")) +
-  labs(x = "Überlebensstatus", y = "Anzahl der Passagiere", title = "Anzahl der Passagiere vs. Überlebensstatus (Passagierklasse 1)") +
-  theme_minimal()
-
+#ToDo -> Plot erstellen mit fare + survived
 
 # 3.) 
 "Eltern und Kinder hatten eine höhere Überlebenschance auf der Titanic. Die Datenanalyse zeigt, 
@@ -100,6 +60,33 @@ data_4_clean <- na.omit(data_4)
 data_4_table <- table(data_4_clean)
 mosaicplot(data_4_table,xlab = "Passagierklasse", ylab ="Überlebt oder nicht",main="Mosaicplot")
 #Aus irgendeinem Grund muss man den ganzen Befehl eingebenen (die Zeile über diesem Kommentar)
+
+#passagierklasse 1
+data_2_clean_drill_down_1 <- subset(data_2_clean, pclass == 1)
+
+ggplot(data_2_clean_drill_down_1, aes(x = factor(survived))) +
+  geom_histogram(stat = "count", fill = c("red", "green")) +
+  scale_x_discrete(labels = c("Nicht überlebt", "Überlebt")) +
+  labs(x = "Überlebensstatus", y = "Anzahl der Passagiere", title = "Aufteilung der Passagiere in der 1ten Klasse") +
+  theme_minimal()
+
+#passagierklasse 2
+data_2_clean_drill_down_2 <- subset(data_2_clean, pclass == 2)
+
+ggplot(data_2_clean_drill_down_2, aes(x = factor(survived))) +
+  geom_histogram(stat = "count", fill = c("red", "green")) +
+  scale_x_discrete(labels = c("Nicht überlebt", "Überlebt")) +
+  labs(x = "Überlebensstatus", y = "Anzahl der Passagiere", title = "Aufteilung der Passagiere in der 2ten Klasse") +
+  theme_minimal()
+
+#passagierklasse 3
+data_2_clean_drill_down_3 <- subset(data_2_clean, pclass == 3)
+
+ggplot(data_2_clean_drill_down_3, aes(x = factor(survived))) +
+  geom_histogram(stat = "count", fill = c("red", "green")) +
+  scale_x_discrete(labels = c("Nicht überlebt", "Überlebt")) +
+  labs(x = "Überlebensstatus", y = "Anzahl der Passagiere", title = "Aufteilung der Passagiere in der 3ten Klasse") +
+  theme_minimal()
 
 
 # 5.)
@@ -126,7 +113,6 @@ plot_6 <- ggplot(data_6_clean,aes(x=age, y = sibsp, color = factor(survived) )) 
   scale_color_manual(values = c("red", "green"), labels = c("Nicht überlebt", "Überlebt")) +
   labs(x = "Alter", y = "geschwister/ehepaare", title = "geschwister/ehepaare vs. Überlebenschance (Überlebensstatus)") +
   theme_dark()
-print(plot_6)
 "Auch bei diesem Diagram wird es deutig, das geschwister/ehepaare eine höhere Chance hatten zu überleben."
 #vielleicht kann man auch daraus ein mosaik plot machen?
 #data_6 <- data.frame(sibsp,survived)

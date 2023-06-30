@@ -2,9 +2,9 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       sliderInput("bin_input", "Bin-Breite:", min = 1, max = 10, value = 1),
-      selectInput("status_input", "Überlebensstatus auswählen:",
-                  choices = c("Alle", "Überlebt", "Nicht-Überlebt"),
-                  selected = "Alle")
+        selectInput("select_input", "Überlebensstatus auswählen:",
+                    choices = c("Alle", "Überlebt", "Nicht-Überlebt"),
+                    selected = "Alle")
     ),
     mainPanel(
       plotOutput("histogram")
@@ -14,23 +14,24 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   output$histogram <- renderPlot({
-    switch(input$status_input,
+    bin_width <- input$bin_input
+    switch(input$select_input,
           "Überlebt" = {ggplot(data_1_alive, aes(x = age, fill = factor(survived))) +
-              geom_histogram(binwidth = 1, color = "black") +
+              geom_histogram(binwidth = bin_width, color = "black") +
               scale_x_continuous(breaks = seq(0, max(data_1_alive$age, na.rm = TRUE), by = 1),
                                  labels = seq(0, max(data_1_alive$age, na.rm = TRUE), by = 1)) +
               labs(x = "Alter", y = "Anzahl", fill = "Überlebensstatus") + 
               scale_fill_manual(values = c("green"), labels = c("Überlebt"), name = "Überlebensstatus")},
     
           "Nicht-Überlebt" = {ggplot(data_1_dead, aes(x = age, fill = factor(survived))) +
-              geom_histogram(binwidth = 1, color = "black") +
+              geom_histogram(binwidth = bin_width, color = "black") +
               scale_x_continuous(breaks = seq(0, max(data_1_dead$age, na.rm = TRUE), by = 1),
                                  labels = seq(0, max(data_1_dead$age, na.rm = TRUE), by = 1)) +
               labs(x = "Alter", y = "Anzahl", fill = "Überlebensstatus") + 
               scale_fill_manual(values = c("red"), labels = c("Nicht-Überlebt"), name = "Überlebensstatus")},
           
           "Alle" = { ggplot(data_1, aes(x = age, fill = factor(survived))) +
-              geom_histogram(binwidth = input$bin_input, color = "black") +
+              geom_histogram(binwidth = bin_width, color = "black") +
               scale_x_continuous(breaks = seq(0, max(data_1$age, na.rm = TRUE), by = 1),
                                  labels = seq(0, max(data_1$age, na.rm = TRUE), by = 1)) +
               labs(x = "Alter", y = "Anzahl", fill = "Überlebensstatus") +

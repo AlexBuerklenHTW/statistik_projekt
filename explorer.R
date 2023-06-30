@@ -18,6 +18,7 @@ data_survived_alive <- titanic_data$survived == 1;
 
 # 1.)
 data_1 <- data.frame(survived, age)
+data_1_clean <- na.omit(data_1)
 data_1
 
 

@@ -92,9 +92,9 @@ ggplot(data_2_clean_drill_down_3, aes(x = factor(survived))) +
 # 5.)
 data_5 <- data.frame(sex,survived)
 
-plot_5 <- ggplot(data_5, aes(x = survived, fill = sex)) +
+plot_5 <- ggplot(data_5, aes(x = factor(survived), fill = sex)) +
   geom_bar() +
-  labs(x = "Überlebt", y = "Anzahl der Personen") +
+  labs(x = "Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebensstatus") +
   scale_fill_manual(values = c("male" = "red", "female" = "green")) +
   theme_minimal()
 

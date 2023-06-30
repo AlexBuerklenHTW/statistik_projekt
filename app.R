@@ -4,7 +4,10 @@ ui <- fluidPage(
       HTML("<h3>Wählen Sie die Bedingung aus</h3>"),
       selectInput("bedingung_input", "Bedingung auswählen:",
                   choices = c("Bedingung 1: Einfluss Alter auf Überlebenschance",
-                              "Bedingung 2: Einfluss Passagierklasse auf Überlebenschance"),
+                              "Bedingung 2: Einfluss Passagierklasse auf Überlebenschance",
+                              "Bedingung 3: Korrelation zwischen Eltern/Kinder und Überlebensstatus",
+                              "Bedingung 4: Aufteilung der Geschlechter nach Überlebensstatus",
+                              "Bedingung 5: Korrelation zwischen dem Überlebensstatus und die Anzahl der Geschwister/Ehepaare"),
                   selected = NULL),
       conditionalPanel(
         condition = "input.bedingung_input == 'Bedingung 1: Einfluss Alter auf Überlebenschance'",
@@ -20,6 +23,15 @@ ui <- fluidPage(
                      choices = c("Alle","Passagierklasse 1","Passagierklasse 2","Passagierklasse 3"),
                      selected = "Alle"),
         plotOutput(outputId = "choice_pclass_final")
+      ),
+      conditionalPanel(
+        condition = "input.bedingung_input == 'Bedingung 3: Korrelation zwischen Eltern/Kinder und Überlebensstatus'"
+      ),
+      conditionalPanel(
+        condition = "input.bedingung_input == 'Bedingung 4: Aufteilung der Geschlechter nach Überlebensstatus'"
+      ),
+      conditionalPanel(
+        condition = "input.bedingung_input == 'Bedingung 5: Korrelation zwischen dem Überlebensstatus und die Anzahl der Geschwister/Ehepaare'"
       )
       
     ),
@@ -65,11 +77,10 @@ server <- function(input, output) {
       )
     }
     else if(choice == "Bedingung 2: Einfluss Passagierklasse auf Überlebenschance"){
-      #output$choice_pclass_final <- renderPlot(
         choice_pclass <- input$choices_pclass
         
       if(choice_pclass == "Alle"){
-        mosaicplot(data_4_table,xlab = "Passagierklasse", ylab ="Überlebt oder nicht",main="Mosaicplot") 
+          mosaicplot(data_4_table,xlab = "Passagierklasse", ylab ="Überlebt oder nicht",main="Korrelation zwischen der Passagierklasse und dem Überlebensstatus") 
       }
       else if(choice_pclass == "Passagierklasse 1"){
         ggplot(data_2_clean_drill_down_1, aes(x = factor(survived))) +
@@ -93,6 +104,22 @@ server <- function(input, output) {
           labs(x = "Überlebensstatus", y = "Anzahl der Passagiere", title = "Aufteilung der Passagiere in der 3ten Klasse") +
           theme_minimal()
       }
+    }
+    else if(choice == "Bedingung 3: Korrelation zwischen Eltern/Kinder und Überlebensstatus"){
+      survival_rates <- aggregate(survived ~ parch, data = data_3_clean, FUN = mean)
+      ggplot(survival_rates, aes(x = factor(parch), y = survived)) +
+        geom_bar(stat = "identity", fill = "steelblue") +
+        labs(x = "Anzahl der Eltern/Kinder an Bord", y = "Überlebensrate", title = "Korrelation zwischen Eltern/Kinder und Überlebensstatus")
+    }
+    else if(choice == "Bedingung 4: Aufteilung der Geschlechter nach Überlebensstatus"){
+      ggplot(data_5, aes(x = factor(survived), fill = sex)) +
+        geom_bar() +
+        labs(x = "Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebensstatus") +
+        scale_fill_manual(values = c("male" = "red", "female" = "green")) +
+        theme_minimal()
+    }
+    else if(choice == "Bedingung 5: Korrelation zwischen dem Überlebensstatus und die Anzahl der Geschwister/Ehepaare"){
+      mosaicplot(data_6_table,xlab = "Geschwister/Ehepartner", ylab ="Überlebt oder nicht",main="Korrelation zwischen dem Überlebensstatus und die Anzahl der Geschwister/Ehepaare")
     }
   })
 }

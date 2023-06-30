@@ -17,8 +17,8 @@ server <- function(input, output) {
     switch(input$status_input,
           "Überlebt" = {ggplot(data_1_alive, aes(x = age, fill = factor(survived))) +
               geom_histogram(binwidth = 1, color = "black") +
-              scale_x_continuous(breaks = seq(0, max(data_1_dead$age, na.rm = TRUE), by = 1),
-                                 labels = seq(0, max(data_1_dead$age, na.rm = TRUE), by = 1)) +
+              scale_x_continuous(breaks = seq(0, max(data_1_alive$age, na.rm = TRUE), by = 1),
+                                 labels = seq(0, max(data_1_alive$age, na.rm = TRUE), by = 1)) +
               labs(x = "Alter", y = "Anzahl", fill = "Überlebensstatus") + 
               scale_fill_manual(values = c("green"), labels = c("Überlebt"), name = "Überlebensstatus")},
     

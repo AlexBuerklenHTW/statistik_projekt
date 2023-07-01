@@ -14,7 +14,7 @@
 # 6.) sibsp + survived -> hatten geschwister/ehepaare eine höhere 
 # überlebenschance?
 
-
+library(ggplot2)
 # 1.)
 data_1 <- data.frame(survived, age)
 data_1_clean <- na.omit(data_1)
@@ -95,6 +95,22 @@ data_5 <- data.frame(sex,survived)
 plot_5 <- ggplot(data_5, aes(x = factor(survived), fill = sex)) +
   geom_bar() +
   labs(x = "Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebensstatus") +
+  scale_fill_manual(values = c("male" = "red", "female" = "green")) +
+  theme_minimal()
+
+#Überlebt
+data_5_clean_drill_down_ueberlebt <- subset(data_5,survived==1)
+ggplot(data_5_clean_drill_down_ueberlebt, aes(x = factor(survived), fill = sex)) +
+  geom_bar() +
+  labs(x = "Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebt") +
+  scale_fill_manual(values = c("male" = "red", "female" = "green")) +
+  theme_minimal()
+
+#nichtüberlebt
+data_5_clean_drill_down_nichtueberlebt <- subset(data_5,survived==0)
+ggplot(data_5_clean_drill_down_nichtueberlebt, aes(x = factor(survived), fill = sex)) +
+  geom_bar() +
+  labs(x = "Nicht Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebensstatus") +
   scale_fill_manual(values = c("male" = "red", "female" = "green")) +
   theme_minimal()
 

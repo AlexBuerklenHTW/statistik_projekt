@@ -1,3 +1,5 @@
+library(ggplot2)
+
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
@@ -23,12 +25,17 @@ ui <- fluidPage(
                      choices = c("Alle","Passagierklasse 1","Passagierklasse 2","Passagierklasse 3"),
                      selected = "Alle"),
         plotOutput(outputId = "choice_pclass_final")
+        
       ),
       conditionalPanel(
         condition = "input.bedingung_input == 'Bedingung 3: Korrelation zwischen Eltern/Kinder und Überlebensstatus'"
       ),
       conditionalPanel(
-        condition = "input.bedingung_input == 'Bedingung 4: Aufteilung der Geschlechter nach Überlebensstatus'"
+        condition = "input.bedingung_input == 'Bedingung 4: Aufteilung der Geschlechter nach Überlebensstatus'",
+        radioButtons(inputId = "choices_survived",
+                     label = "Überlebt/Nicht Überlebt",
+                     choices = c("Alle","Überlebt","Nicht Überlebt"),
+                     selected = "Alle")
       ),
       conditionalPanel(
         condition = "input.bedingung_input == 'Bedingung 5: Korrelation zwischen dem Überlebensstatus und die Anzahl der Geschwister/Ehepaare'"
@@ -112,12 +119,34 @@ server <- function(input, output) {
         labs(x = "Anzahl der Eltern/Kinder an Bord", y = "Überlebensrate", title = "Korrelation zwischen Eltern/Kinder und Überlebensstatus")
     }
     else if(choice == "Bedingung 4: Aufteilung der Geschlechter nach Überlebensstatus"){
-      ggplot(data_5, aes(x = factor(survived), fill = sex)) +
-        geom_bar() +
-        labs(x = "Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebensstatus") +
-        scale_fill_manual(values = c("male" = "red", "female" = "green")) +
-        theme_minimal()
-    }
+        choice_survived <- input$choices_survived
+        if(choice_survived == "Alle"){
+          ggplot(data_5, aes(x = factor(survived), fill = sex)) +
+            geom_bar() +
+            labs(x = "Nicht Überlebt & Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebensstatus") +
+            scale_fill_manual(values = c("male" = "red", "female" = "green")) +
+            theme_minimal()
+        }
+        else if(choice_survived == "Überlebt"){
+          ggplot(data_5_clean_drill_down_ueberlebt, aes(x = factor(survived), fill = sex)) +
+            geom_bar() +
+            geom_text(aes(label = ..count..), stat = "count", vjust = 2) +
+            labs(x = "Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebensstatus") +
+            scale_fill_manual(values = c("male" = "red", "female" = "green")) +
+            theme_minimal()
+          
+        }
+        else if(choice_survived == "Nicht Überlebt"){
+          ggplot(data_5_clean_drill_down_nichtueberlebt, aes(x = factor(survived), fill = sex)) +
+            geom_bar() +
+            geom_text(aes(label = ..count..), stat = "count", vjust = -1) +
+            labs(x = "Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebensstatus") +
+            scale_fill_manual(values = c("male" = "red", "female" = "green")) +
+            theme_minimal()
+          
+          
+          
+    }}
     else if(choice == "Bedingung 5: Korrelation zwischen dem Überlebensstatus und die Anzahl der Geschwister/Ehepaare"){
       mosaicplot(data_6_table,xlab = "Geschwister/Ehepartner", ylab ="Überlebt oder nicht",main="Korrelation zwischen dem Überlebensstatus und die Anzahl der Geschwister/Ehepaare")
     }

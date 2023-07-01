@@ -124,7 +124,7 @@ server <- function(input, output) {
           ggplot(data_5, aes(x = factor(survived), fill = sex)) +
             geom_bar() +
             labs(x = "Nicht Überlebt & Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebensstatus") +
-            scale_fill_manual(values = c("male" = "red", "female" = "green")) +
+            scale_fill_manual(values = c("male" = "blue", "female" = "pink")) +
             theme_minimal()
         }
         else if(choice_survived == "Überlebt"){
@@ -132,7 +132,7 @@ server <- function(input, output) {
             geom_bar() +
             geom_text(aes(label = ..count..), stat = "count", vjust = 2) +
             labs(x = "Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebensstatus") +
-            scale_fill_manual(values = c("male" = "red", "female" = "green")) +
+            scale_fill_manual(values = c("male" = "blue", "female" = "pink")) +
             theme_minimal()
           
         }
@@ -141,7 +141,7 @@ server <- function(input, output) {
             geom_bar() +
             geom_text(aes(label = ..count..), stat = "count", vjust = -1) +
             labs(x = "Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebensstatus") +
-            scale_fill_manual(values = c("male" = "red", "female" = "green")) +
+            scale_fill_manual(values = c("male" = "blue", "female" = "pink")) +
             theme_minimal()
           
           

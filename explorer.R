@@ -14,6 +14,9 @@
 # 6.) sibsp + survived -> hatten geschwister/ehepaare eine höhere 
 # überlebenschance?
 
+# 7.) pclass + sex(male/female) + survived -> wie hoch ist die relative Häufigkeit der Überlebenden von Männern und Frauen in den jeweiligen Passagierklassen 
+# 8.) 
+
 library(ggplot2)
 # 1.)
 data_1 <- data.frame(survived, age)

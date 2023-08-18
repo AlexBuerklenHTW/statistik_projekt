@@ -1,5 +1,6 @@
 library(ggplot2)
 library(shiny)
+library(rsconnect)
 
 ui <- fluidPage(
   sidebarLayout(
@@ -10,7 +11,7 @@ ui <- fluidPage(
                               "Bedingung 2: Einfluss Passagierklasse auf Überlebenschance",
                               "Bedingung 3: Überlebensrate der Eltern/Kinder",
                               "Bedingung 4: Aufteilung der Geschlechter nach Überlebenschance",
-                              "Bedingung 5: Einfluss Überlebensstatus auf die Anzahl der Geschwister/Ehepaare (Relative Häufigkeit)"),
+                              "Bedingung 5: Einfluss Überlebensstatus auf die Anzahl der Geschwister/Ehepartner (Relative Häufigkeit)"),
                   selected = NULL),
       conditionalPanel(
         condition = "input.bedingung_input == 'Bedingung 1: Einfluss Alter auf Überlebenschance'",
@@ -44,7 +45,7 @@ ui <- fluidPage(
                      selected = "Übersicht")
       ),
       conditionalPanel(
-        condition = "input.bedingung_input == 'Bedingung 5: Korrelation zwischen dem Überlebensstatus und die Anzahl der Geschwister/Ehepaare (Relative Häufigkeit)'"
+        condition = "input.bedingung_input == 'Bedingung 5: Korrelation zwischen dem Überlebensstatus und die Anzahl der Geschwister/Ehepartner (Relative Häufigkeit)'"
       )
       
     ),
@@ -181,6 +182,7 @@ server <- function(input, output) {
         if(choice_survived == "Übersicht"){
           ggplot(data_5, aes(x = factor(survived), fill = sex)) +
             geom_bar() +
+            geom_text(aes(label = ..count..), stat = "count", vjust = 0.1) +
             labs(x = "Nicht Überlebt & Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebenschance") +
             scale_fill_manual(values = c("male" = "blue", "female" = "pink")) +
             theme_minimal()
@@ -198,7 +200,7 @@ server <- function(input, output) {
           ggplot(data_5_clean_drill_down_nichtueberlebt, aes(x = factor(survived), fill = sex)) +
             geom_bar() +
             geom_text(aes(label = ..count..), stat = "count", vjust = -1) +
-            labs(x = "Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebenschance") +
+            labs(x = "Nicht Überlebt", y = "Anzahl der Personen", title = "Aufteilung der Geschlechter nach Überlebenschance") +
             scale_fill_manual(values = c("male" = "blue", "female" = "pink")) +
             theme_minimal()
         }
@@ -211,7 +213,7 @@ server <- function(input, output) {
             theme_minimal()
         }
         }
-    else if(choice == "Bedingung 5: Einfluss Überlebensstatus auf die Anzahl der Geschwister/Ehepaare (Relative Häufigkeit)"){
+    else if(choice == "Bedingung 5: Einfluss Überlebensstatus auf die Anzahl der Geschwister/Ehepartner (Relative Häufigkeit)"){
       mosaicplot(data_6_table,xlab = "Geschwister/Ehepartner", ylab ="Überlebt/nicht Überlebt",
                  main="Verteilung der Überlebensschance auf die Anzahl der Geschwister/Ehepaare",
                  color = c("red","green"))
